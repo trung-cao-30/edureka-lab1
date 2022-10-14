@@ -1,0 +1,2 @@
+[slave-host]
+172.31.28.118   ansible_user=edureka

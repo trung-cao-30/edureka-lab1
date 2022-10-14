@@ -11,10 +11,20 @@ pipeline {
                 }
             }
         }
-        // stage('Deploy') {
-        //     steps {
-        //         echo 'Deploying....'
-        //     }
-        // }
+        stage('Deploy with Ansible') {
+            steps {
+                echo 'Deploying....'
+                ansiblePlaybook(
+                    credentialsId: 'ansible-ssh-edureka',
+                    become: true, 
+                    becomeUser: 'edureka',
+                    inventory: 'ansible-playbook/inventory/hosts',
+                    installation:'MyAnsible',
+                    limit: 'slave-host',
+                    playbook: 'ansible-playbook/deploy-docker.yml',
+                    extras: '--extra-var \"lab1_image=tientrung30bkdn/lab1:$BUILD_NUMBER\"'
+                )
+            }
+        }
     }
 }
